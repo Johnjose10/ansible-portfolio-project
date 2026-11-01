@@ -1,0 +1,22 @@
+---
+- name: Test Portfolio Website
+  hosts: webservers
+  become: yes
+
+  roles:
+    - portfolio
+
+  tasks:
+    - name: Check Nginx service
+      command: systemctl is-active nginx
+      changed_when: false
+
+    - name: Check portfolio homepage
+      stat:
+        path: /var/www/html/index.html
+      register: homepage
+
+    - name: Verify homepage exists
+      assert:
+        that:
+          - homepage.stat.exists

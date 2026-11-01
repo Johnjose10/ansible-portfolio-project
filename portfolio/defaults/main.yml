@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for portfolio
+
+# Default variables
+
+nginx_package: nginx
+
+web_root: /var/www/html
+
+nginx_service: nginx
+
+website_owner: www-data
+
+website_group: www-data
+
+website_permissions: '0755'

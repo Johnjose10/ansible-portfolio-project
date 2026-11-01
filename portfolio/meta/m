@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  role_name: portfolio
+  author: student
+  description: Deploy static portfolio website using Nginx
+  company: Personal
+  license: MIT
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+
+  galaxy_tags:
+    - nginx
+    - portfolio
+    - deployment
+    - webserver
+
+dependencies: []

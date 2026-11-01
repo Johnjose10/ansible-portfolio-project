@@ -1,0 +1,4 @@
+#SPDX-License-Identifier: MIT-0
+localhost
+[webservers]
+localhost ansible_connection=local

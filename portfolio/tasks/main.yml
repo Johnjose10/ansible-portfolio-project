@@ -1,0 +1,62 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for portfolio
+
+# Install Nginx
+
+- name: Update apt package cache
+  apt:
+    update_cache: yes
+
+- name: Install Nginx
+  apt:
+    name: "{{ nginx_package }}"
+    state: present
+
+# Create website directory
+
+- name: Create website directory
+  file:
+    path: "{{ web_root }}"
+    state: directory
+    owner: "{{ website_owner }}"
+    group: "{{ website_group }}"
+    mode: "{{ website_permissions }}"
+
+# Copy website files
+
+- name: Copy portfolio website files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ web_root }}/{{ item }}"
+    owner: "{{ website_owner }}"
+    group: "{{ website_group }}"
+    mode: '0644'
+  loop: "{{ website_files }}"
+
+# Configure Nginx
+
+- name: Configure Nginx site
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/portfolio
+  notify: Restart Nginx
+
+- name: Enable portfolio website
+  file:
+    src: /etc/nginx/sites-available/portfolio
+    dest: /etc/nginx/sites-enabled/portfolio
+    state: link
+  notify: Restart Nginx
+
+- name: Remove default Nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Restart Nginx
+
+- name: Start and enable Nginx
+  service:
+    name: "{{ nginx_service }}"
+    state: started
+    enabled: yes
